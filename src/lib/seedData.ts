@@ -57,7 +57,7 @@ Gunakan \`cout\` untuk mencetak sapaan pertamamu ke konsol.
 \`endl\` memaksa sistem untuk *flush* buffer setiap baris (sangat lambat). \`"\\n"\` cukup untuk mencetak *newline* biasa.
 
 **Tugas:**
-Cetak teks \`Hello, Gameby!\` ke layar diikuti dengan *newline*.`,
+Cetak teks \`Hello, CppForge!\` ke layar diikuti dengan *newline*.`,
         starterCode: `#include <iostream>
 using namespace std;
 
@@ -66,15 +66,15 @@ int main() {
     
     return 0;
 }`,
-        expectedOutput: "Hello, Gameby!",
+        expectedOutput: "Hello, CppForge!",
         xpReward: 50,
         coinReward: 10,
         order: 1,
         isBossLevel: false,
         hints: [
           { id: "h1-1", tier: 1, content: "Gunakan cout << ... untuk mencetak.", costCoins: 5 },
-          { id: "h1-2", tier: 2, content: 'cout << "Hello, Gameby!" << "\\n";', costCoins: 10 },
-          { id: "h1-3", tier: 3, content: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, Gameby!\\n";\n    return 0;\n}', costCoins: 20 },
+          { id: "h1-2", tier: 2, content: 'cout << "Hello, CppForge!" << "\\n";', costCoins: 10 },
+          { id: "h1-3", tier: 3, content: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello, CppForge!\\n";\n    return 0;\n}', costCoins: 20 },
         ],
       },
       {

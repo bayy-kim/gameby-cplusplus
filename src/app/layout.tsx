@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "GAMEBY_C++ — Belajar C++ Interaktif & Gamifikasi",
-  description: "Web app game edukasi belajar C++ dengan skill tree, code playground Piston API, dan boss battle.",
+  title: "CppForge — Belajar C++ Interaktif & Gamifikasi",
+  description: "Platform edukasi untuk menempa skill C++ modern Anda lewat code playground interaktif dan boss battle.",
 };
 
 export default function RootLayout({

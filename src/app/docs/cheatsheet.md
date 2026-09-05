@@ -1,6 +1,6 @@
 # C++ Modern Cheat Sheet
 
-Gunakan dokumen ini sebagai panduan cepat (referensi) saat Anda sedang mengerjakan misi di **GAMEBY_C++**.
+Gunakan dokumen ini sebagai panduan cepat (referensi) saat Anda sedang mengerjakan misi di **CppForge**.
 Dokumen ini merangkum sintaks dan praktik terbaik C++ modern (C++17, C++20, C++23).
 
 ---

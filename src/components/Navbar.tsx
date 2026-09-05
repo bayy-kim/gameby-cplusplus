@@ -19,7 +19,7 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2 group">
           <Terminal className="w-5 h-5 text-indigo-400 group-hover:text-indigo-300 transition-colors" />
           <span className="font-bold tracking-tight text-lg text-white">
-            GAMEBY<span className="text-zinc-500">_C++</span>
+            Cpp<span className="text-zinc-500">Forge</span>
           </span>
         </Link>
 

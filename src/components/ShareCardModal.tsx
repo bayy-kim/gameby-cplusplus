@@ -41,7 +41,7 @@ export default function ShareCardModal({
       });
       
       const link = document.createElement("a");
-      link.download = `GAMEBY_CPP_${badgeName.replace(/\s+/g, "_")}.png`;
+      link.download = `CppForge_${badgeName.replace(/\s+/g, "_")}.png`;
       link.href = dataUrl;
       link.click();
     } catch (err) {
@@ -76,7 +76,7 @@ export default function ShareCardModal({
           {/* Header Brand */}
           <div className="flex justify-between items-center mb-8 relative z-10">
             <span className="font-semibold tracking-tight text-sm text-zinc-100 flex items-center gap-2">
-               <Code2 className="w-4 h-4 text-indigo-400"/> GAMEBY<span className="text-zinc-500">_C++</span>
+               <Code2 className="w-4 h-4 text-indigo-400"/> Cpp<span className="text-zinc-500">Forge</span>
             </span>
             <span className="bg-indigo-500/10 text-indigo-400 px-2.5 py-1 rounded-md text-[10px] font-mono tracking-widest uppercase flex items-center gap-1.5 border border-indigo-500/20">
               <Sparkles className="w-3 h-3" /> ACHIEVEMENT

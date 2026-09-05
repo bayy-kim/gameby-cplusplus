@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { SEED_WORLDS } from "../src/lib/seedData";
+import { SEED_WORLDS } from "../src/lib/seedData.ts";
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,7 @@ async function main() {
     { name: "Loop Ninja", description: "Lulus perulangan tanpa error", icon: "🥷", criteria: "WORLD_2_COMPLETED" },
     { name: "Syntax Debugger", description: "Mengalahkan Boss World 1", icon: "⚔️", criteria: "BOSS_WORLD_1" },
     { name: "Memory Master", description: "Kuasai Pointer & Dynamic Memory", icon: "🧠", criteria: "WORLD_6_COMPLETED" },
-    { name: "C++ Grandmaster", description: "Tamatkan seluruh Dunia GAMEBY_C++", icon: "👑", criteria: "ALL_WORLDS_COMPLETED" },
+    { name: "C++ Grandmaster", description: "Tamatkan seluruh Dunia CppForge", icon: "👑", criteria: "ALL_WORLDS_COMPLETED" },
   ];
 
   for (const b of badges) {

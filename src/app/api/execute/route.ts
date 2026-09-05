@@ -29,9 +29,9 @@ export async function POST(req: Request) {
       if (expectedOutput && code.includes(expectedOutput)) {
         simulatedStdout = expectedOutput;
       } 
-      // Cek untuk Level 1-1 (Hello, Gameby!)
-      else if (code.includes("Hello, Gameby!")) {
-        simulatedStdout = "Hello, Gameby!";
+      // Simulasi khusus Level 1-1 ("Hello, CppForge!")
+      else if (code.includes("Hello, CppForge!")) {
+        simulatedStdout = "Hello, CppForge!";
       }
       // Simulasi khusus Level 1-2 (Variabel)
       else if (code.includes("Ciko") && code.includes("1")) {
