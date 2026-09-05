@@ -592,6 +592,468 @@ int main() {
   },
 
   // ══════════════════════════════════════════════════════════
+  // DUNIA 6 — PENGELOLAAN MEMORI (Smart Pointers)
+  // ══════════════════════════════════════════════════════════
+  {
+    id: "world-6",
+    title: "Dunia 6: Pengelolaan Memori",
+    description: "Kuasai Smart Pointer modern: unique_ptr, shared_ptr, dan weak_ptr. Tidak ada lagi new/delete manual.",
+    order: 6,
+    difficultyTier: "Mahir",
+    icon: "cpu",
+    levels: [
+      {
+        id: "level-6-1",
+        worldId: "world-6",
+        title: "unique_ptr — Kepemilikan Eksklusif",
+        content: `Di C++ modern, kita **DILARANG** menggunakan `new` dan `delete` secara manual. Kenapa? Karena jika kita lupa memanggil `delete`, memori akan "bocor" selamanya — disebut **Memory Leak**.
+
+Solusinya adalah **Smart Pointer** yang secara otomatis membebaskan memori saat sudah tidak dibutuhkan.
+
+### unique_ptr — Satu Pemilik Saja
+\`\`\`cpp
+#include <memory>
+
+// ✅ Modern: Gunakan make_unique<>()
+auto weapon = make_unique<string>("Excalibur");
+cout << *weapon << "\\n"; // Derefensi dengan *
+
+// weapon akan otomatis dihapus saat keluar scope
+// TIDAK PERLU delete!
+\`\`\`
+
+**Mengapa \`make_unique\` bukan \`new\`?**
+\`make_unique\` lebih aman karena exception-safe dan hanya butuh satu baris.
+
+**Tugas:**
+Buat \`unique_ptr<int>\` bernama \`damage\` dengan nilai \`999\` menggunakan \`make_unique\`, lalu cetak nilainya.`,
+        starterCode: `#include <iostream>
+#include <memory>
+using namespace std;
+
+int main() {
+    // Buat unique_ptr dengan make_unique
+    auto damage = make_unique<int>(999);
+    
+    // Cetak nilai dengan derefensi (*)
+    cout << "Damage: " << *damage << "\\n";
+    return 0;
+}`,
+        expectedOutput: "Damage: 999",
+        xpReward: 140,
+        coinReward: 35,
+        order: 1,
+        isBossLevel: false,
+        hints: [
+          { id: "h61-1", tier: 1, content: "Gunakan `*damage` untuk mengakses nilai di dalam pointer.", costCoins: 5 },
+          { id: "h61-2", tier: 2, content: 'cout << "Damage: " << *damage << "\\n";', costCoins: 10 },
+          { id: "h61-3", tier: 3, content: '#include <iostream>\n#include <memory>\nusing namespace std;\n\nint main() {\n    auto damage = make_unique<int>(999);\n    cout << "Damage: " << *damage << "\\n";\n    return 0;\n}', costCoins: 20 },
+        ],
+      },
+      {
+        id: "level-6-2",
+        worldId: "world-6",
+        title: "shared_ptr — Kepemilikan Bersama",
+        content: `Berbeda dengan \`unique_ptr\` yang hanya boleh punya satu pemilik, **\`shared_ptr\`** memungkinkan banyak pemilik berbagi satu objek di memori. Objek baru benar-benar dihapus saat pemilik terakhir lepas.
+
+Cara kerjanya menggunakan **Reference Counting** — menghitung berapa banyak \`shared_ptr\` yang menunjuk ke objek yang sama.
+
+\`\`\`cpp
+#include <memory>
+
+auto shield = make_shared<string>("Aegis");
+auto shield2 = shield; // Salin pointer, bukan data!
+
+cout << shield.use_count(); // Output: 2 (ada 2 pemilik)
+cout << *shield;            // Output: Aegis
+\`\`\`
+
+**Tugas:**
+Buat \`shared_ptr<string>\` bernama \`item\` berisi \`"Holy Grail"\`. Salin ke \`item2\`. Lalu cetak jumlah pemiliknya menggunakan \`.use_count()\`.`,
+        starterCode: `#include <iostream>
+#include <memory>
+#include <string>
+using namespace std;
+
+int main() {
+    auto item  = make_shared<string>("Holy Grail");
+    auto item2 = item; // shared ownership
+    
+    // Cetak jumlah pemilik (use_count)
+    cout << "Owners: " << item.use_count() << "\\n";
+    return 0;
+}`,
+        expectedOutput: "Owners: 2",
+        xpReward: 160,
+        coinReward: 40,
+        order: 2,
+        isBossLevel: false,
+        hints: [
+          { id: "h62-1", tier: 1, content: "Gunakan `.use_count()` pada shared_ptr untuk mendapat jumlah pemilik.", costCoins: 5 },
+          { id: "h62-2", tier: 2, content: 'cout << "Owners: " << item.use_count() << "\\n";', costCoins: 10 },
+          { id: "h62-3", tier: 3, content: '#include <iostream>\n#include <memory>\n#include <string>\nusing namespace std;\n\nint main() {\n    auto item  = make_shared<string>("Holy Grail");\n    auto item2 = item;\n    cout << "Owners: " << item.use_count() << "\\n";\n    return 0;\n}', costCoins: 20 },
+        ],
+      },
+      {
+        id: "level-6-3",
+        worldId: "world-6",
+        title: "Boss Realm 6: Memory Leak Phantom",
+        content: `🔴 **BOSS BATTLE!**
+
+Kode warisan ini menggunakan **\`new\` dan \`delete\` secara manual** — pola berbahaya yang sudah **DILARANG** di C++ modern!
+
+Bayangkan jika fungsi ini dipanggil ribuan kali: setiap kali \`delete\` terlewat, memori sebesar 4 byte hilang selamanya. Dalam program server yang berjalan berhari-hari, ini bisa menghabiskan RAM!
+
+### Kode yang Sudah Usang (C++98 Style)
+\`\`\`cpp
+int* p = new int(42); // Alokasi manual di heap
+// ... jika exception terjadi di sini, delete tidak dipanggil!
+delete p;             // Rawan lupa atau terlewati
+\`\`\`
+
+**Tugas:** Refaktor kode ini sepenuhnya menggunakan \`unique_ptr\` dan \`make_unique\`. Hapus semua \`new\` dan \`delete\` manual!`,
+        starterCode: `#include <iostream>
+using namespace std;
+
+int main() {
+    // BUG: Menggunakan new/delete manual — gaya C++98!
+    int* hp    = new int(100);
+    int* mana  = new int(50);
+    
+    cout << "HP: " << *hp << " | Mana: " << *mana << "\\n";
+    
+    delete hp;
+    delete mana;
+    return 0;
+}`,
+        expectedOutput: "HP: 100 | Mana: 50",
+        xpReward: 280,
+        coinReward: 100,
+        order: 3,
+        isBossLevel: true,
+        timeLimitSec: 120,
+        hints: [
+          { id: "h63-1", tier: 1, content: "Ganti `int* hp = new int(100);` dengan `auto hp = make_unique<int>(100);`", costCoins: 10 },
+          { id: "h63-2", tier: 2, content: "Setelah pakai make_unique, hapus baris `delete hp;` dan `delete mana;` — tidak dibutuhkan lagi.", costCoins: 20 },
+          { id: "h63-3", tier: 3, content: '#include <iostream>\n#include <memory>\nusing namespace std;\n\nint main() {\n    auto hp   = make_unique<int>(100);\n    auto mana = make_unique<int>(50);\n    cout << "HP: " << *hp << " | Mana: " << *mana << "\\n";\n    return 0;\n}', costCoins: 30 },
+        ],
+      },
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════
+  // DUNIA 7 — STL & ALGORITMA (Ranges C++20)
+  // ══════════════════════════════════════════════════════════
+  {
+    id: "world-7",
+    title: "Dunia 7: STL & Algoritma",
+    description: "Manfaatkan kekuatan std::ranges C++20 untuk sort, filter, transform data tanpa menulis loop manual.",
+    order: 7,
+    difficultyTier: "Expert",
+    icon: "layers",
+    levels: [
+      {
+        id: "level-7-1",
+        worldId: "world-7",
+        title: "std::ranges::sort — Urutkan Data",
+        content: `**Standard Template Library (STL)** adalah gudang senjata C++: koleksi *container*, *iterator*, dan *algoritma* siap pakai yang sudah sangat dioptimalkan.
+
+Di C++20, STL mendapat tambahan besar berupa **Ranges** — cara menulis algoritma yang jauh lebih bersih dan readable. Tidak perlu lagi menyebut `.begin()` dan `.end()`!
+
+### Perbandingan:
+\`\`\`cpp
+// Cara Lama (C++98/11)
+sort(v.begin(), v.end());
+
+// ✅ Cara Modern C++20 (Ranges)
+ranges::sort(v);
+\`\`\`
+
+**Tugas:**
+Urutkan vector \`scores = {50, 10, 80, 30}\` menggunakan \`ranges::sort\`. Lalu cetak elemen pertama (nilai terkecil setelah diurutkan).`,
+        starterCode: `#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> scores = {50, 10, 80, 30};
+    
+    // Gunakan ranges::sort untuk mengurutkan
+    ranges::sort(scores);
+    
+    // Cetak elemen pertama (terkecil)
+    cout << "Min Score: " << scores[0] << "\\n";
+    return 0;
+}`,
+        expectedOutput: "Min Score: 10",
+        xpReward: 160,
+        coinReward: 40,
+        order: 1,
+        isBossLevel: false,
+        hints: [
+          { id: "h71-1", tier: 1, content: "Setelah ranges::sort, elemen terkecil ada di indeks [0].", costCoins: 5 },
+          { id: "h71-2", tier: 2, content: 'ranges::sort(scores);\ncout << "Min Score: " << scores[0] << "\\n";', costCoins: 10 },
+          { id: "h71-3", tier: 3, content: '#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    vector<int> scores = {50, 10, 80, 30};\n    ranges::sort(scores);\n    cout << "Min Score: " << scores[0] << "\\n";\n    return 0;\n}', costCoins: 20 },
+        ],
+      },
+      {
+        id: "level-7-2",
+        worldId: "world-7",
+        title: "std::ranges::count_if — Filter Kondisi",
+        content: `Salah satu operasi paling umum adalah **menghitung atau menyaring elemen** yang memenuhi kondisi tertentu. Dengan \`ranges::count_if\` dan Lambda, ini menjadi satu baris ekspresif!
+
+\`\`\`cpp
+vector<int> hp = {100, 30, 75, 15, 90};
+
+// Hitung elemen yang nilainya > 50
+auto alive = ranges::count_if(hp, [](auto x) { return x > 50; });
+// alive = 3
+\`\`\`
+
+Pola ini adalah **Functional Programming** — kamu mendeklarasikan APA yang ingin dihitung, bukan BAGAIMANA caranya secara manual dengan loop.
+
+**Tugas:**
+Dari vector \`levels = {1, 5, 3, 8, 2, 7}\`, hitung berapa elemen yang nilainya **lebih dari 4** menggunakan \`ranges::count_if\`.`,
+        starterCode: `#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> levels = {1, 5, 3, 8, 2, 7};
+    
+    // Hitung elemen yang > 4
+    auto highLevel = ranges::count_if(levels, [](auto x) {
+        return x > 4;
+    });
+    
+    cout << "High Level Count: " << highLevel << "\\n";
+    return 0;
+}`,
+        expectedOutput: "High Level Count: 3",
+        xpReward: 180,
+        coinReward: 45,
+        order: 2,
+        isBossLevel: false,
+        hints: [
+          { id: "h72-1", tier: 1, content: "Nilai yang > 4 dari {1,5,3,8,2,7} adalah: 5, 8, 7 → total 3 elemen.", costCoins: 5 },
+          { id: "h72-2", tier: 2, content: 'auto highLevel = ranges::count_if(levels, [](auto x) { return x > 4; });\ncout << "High Level Count: " << highLevel << "\\n";', costCoins: 10 },
+          { id: "h72-3", tier: 3, content: '#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    vector<int> levels = {1, 5, 3, 8, 2, 7};\n    auto highLevel = ranges::count_if(levels, [](auto x) { return x > 4; });\n    cout << "High Level Count: " << highLevel << "\\n";\n    return 0;\n}', costCoins: 20 },
+        ],
+      },
+      {
+        id: "level-7-3",
+        worldId: "world-7",
+        title: "Boss Realm 7: Unsorted Chaos Lord",
+        content: `🔴 **BOSS BATTLE!**
+
+Sistem penghargaan turnamen rusak! Ia harus mencari nama pemain dengan skor tertinggi, tapi datanya **berantakan dan tidak terurut**.
+
+Programmu harus:
+1. Urutkan vector pasangan \`{nama, skor}\` berdasarkan skor secara **menurun** (*descending*).
+2. Cetak nama pemenang (elemen pertama setelah diurutkan).
+
+### Alat yang Dibutuhkan:
+\`\`\`cpp
+// Urutkan dengan custom comparator
+ranges::sort(players, [](const auto& a, const auto& b) {
+    return a.second > b.second; // Descending (besar dulu)
+});
+\`\`\`
+
+**Expected Output:** \`Winner: Bonbon\``,
+        starterCode: `#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<pair<string, int>> players = {
+        {"Ciko", 320},
+        {"Bonbon", 550},
+        {"Rara", 410},
+    };
+    
+    // Urutkan berdasarkan skor menurun (besar ke kecil)
+    // Perbaiki lambda comparatornya!
+    ranges::sort(players, [](const auto& a, const auto& b) {
+        return a.second < b.second; // BUG: ini ascending, bukan descending!
+    });
+    
+    cout << "Winner: " << players[0].first << "\\n";
+    return 0;
+}`,
+        expectedOutput: "Winner: Bonbon",
+        xpReward: 300,
+        coinReward: 110,
+        order: 3,
+        isBossLevel: true,
+        timeLimitSec: 100,
+        hints: [
+          { id: "h73-1", tier: 1, content: "Bug-nya ada di tanda perbandingan `<` dalam lambda. Untuk descending, harus `>`.", costCoins: 10 },
+          { id: "h73-2", tier: 2, content: "Ganti `a.second < b.second` menjadi `a.second > b.second`", costCoins: 20 },
+          { id: "h73-3", tier: 3, content: '#include <iostream>\n#include <vector>\n#include <string>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    vector<pair<string, int>> players = {{\"Ciko\", 320}, {\"Bonbon\", 550}, {\"Rara\", 410}};\n    ranges::sort(players, [](const auto& a, const auto& b) {\n        return a.second > b.second;\n    });\n    cout << "Winner: " << players[0].first << "\\n";\n    return 0;\n}', costCoins: 30 },
+        ],
+      },
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════
+  // DUNIA 8 — KONKURENSI & C++23
+  // ══════════════════════════════════════════════════════════
+  {
+    id: "world-8",
+    title: "Dunia 8: Konkurensi & C++23",
+    description: "Tingkat tertinggi: std::thread, std::jthread C++20, mutex, dan fitur terbaru C++23 seperti std::print.",
+    order: 8,
+    difficultyTier: "Expert",
+    icon: "crown",
+    levels: [
+      {
+        id: "level-8-1",
+        worldId: "world-8",
+        title: "std::jthread — Thread Modern (C++20)",
+        content: `Konkurensi (Concurrency) memungkinkan program menjalankan banyak tugas secara bersamaan memanfaatkan multi-core CPU.
+
+**\`std::thread\`** (C++11) adalah dasar, namun punya masalah: kita **wajib** memanggil \`.join()\` secara manual, dan jika lupa, program crash!
+
+**\`std::jthread\`** (C++20) hadir sebagai solusi: ia **otomatis** memanggil \`.join()\` saat keluar scope — seperti smart pointer tapi untuk thread!
+
+\`\`\`cpp
+#include <thread>
+
+// jthread otomatis join saat scope berakhir
+jthread t([]{
+    cout << "Hello dari thread lain!\\n";
+});
+// Tidak perlu t.join() manual!
+\`\`\`
+
+**Tugas:**
+Buat \`jthread\` yang mencetak teks \`Thread Aktif!\` dari dalam lambda.`,
+        starterCode: `#include <iostream>
+#include <thread>
+using namespace std;
+
+int main() {
+    // Buat jthread dengan lambda
+    jthread worker([] {
+        cout << "Thread Aktif!\\n";
+    });
+    
+    // jthread otomatis join — tidak perlu worker.join()
+    return 0;
+}`,
+        expectedOutput: "Thread Aktif!",
+        xpReward: 200,
+        coinReward: 50,
+        order: 1,
+        isBossLevel: false,
+        hints: [
+          { id: "h81-1", tier: 1, content: "jthread menerima lambda sebagai argumen konstruktor. Lambda adalah `[]{...}`.", costCoins: 5 },
+          { id: "h81-2", tier: 2, content: 'jthread worker([] {\n    cout << "Thread Aktif!\\n";\n});', costCoins: 10 },
+          { id: "h81-3", tier: 3, content: '#include <iostream>\n#include <thread>\nusing namespace std;\n\nint main() {\n    jthread worker([] {\n        cout << "Thread Aktif!\\n";\n    });\n    return 0;\n}', costCoins: 20 },
+        ],
+      },
+      {
+        id: "level-8-2",
+        worldId: "world-8",
+        title: "std::print — Output Modern (C++23)",
+        content: `C++23 memperkenalkan **\`std::print\`** — pengganti modern untuk \`printf\` dan pelengkap \`cout\`. Sintaksnya lebih bersih, type-safe, dan mendukung format string seperti Python!
+
+\`\`\`cpp
+#include <print>
+
+// C++23: Type-safe, mirip Python f-string
+print("Hello, {}!\\n", "World");
+print("HP: {}, Mana: {}\\n", 100, 50);
+
+// Tidak perlu << atau format manual!
+\`\`\`
+
+**Keunggulan \`std::print\`:**
+- Tidak bisa salah tipe (type-safe) seperti \`printf("%d", str)\` yang bisa crash.
+- Lebih cepat dari \`cout\` karena tidak perlu chaining \`<<\`.
+
+**Tugas:**
+Gunakan \`std::print\` untuk mencetak pesan \`C++ 23 Siap!\` ke konsol.`,
+        starterCode: `#include <print>
+using namespace std;
+
+int main() {
+    // Gunakan print() dari C++23
+    print("C++ 23 Siap!\\n");
+    return 0;
+}`,
+        expectedOutput: "C++ 23 Siap!",
+        xpReward: 220,
+        coinReward: 55,
+        order: 2,
+        isBossLevel: false,
+        hints: [
+          { id: "h82-1", tier: 1, content: "Cukup tulis: print(\"C++ 23 Siap!\\n\");", costCoins: 5 },
+          { id: "h82-2", tier: 2, content: '#include <print>\nusing namespace std;\n\nint main() {\n    print("C++ 23 Siap!\\n");\n    return 0;\n}', costCoins: 10 },
+          { id: "h82-3", tier: 3, content: '#include <print>\nusing namespace std;\n\nint main() {\n    print("C++ 23 Siap!\\n");\n    return 0;\n}', costCoins: 20 },
+        ],
+      },
+      {
+        id: "level-8-3",
+        worldId: "world-8",
+        title: "Boss Final: Race Condition Overlord",
+        content: `🔴 **BOSS FINAL — GRANDMASTER CHALLENGE!**
+
+Ini adalah musuh terbesar dalam pemrograman konkuren: **Race Condition** — ketika dua thread mencoba mengubah data yang sama secara bersamaan, menghasilkan nilai yang tidak bisa diprediksi dan sangat sulit di-debug!
+
+\`\`\`
+Thread 1: baca counter (nilai: 0)
+Thread 2: baca counter (nilai: 0)
+Thread 1: tulis counter = 0 + 1 = 1
+Thread 2: tulis counter = 0 + 1 = 1  ← Harusnya 2, bukan 1!
+\`\`\`
+
+Solusinya adalah **\`std::mutex\`** (Mutual Exclusion) — kunci yang memastikan hanya satu thread yang boleh mengakses data kritis pada satu waktu.
+
+**Tugas:**
+Perbaiki kode ini dengan menambahkan \`mutex\` dan \`lock_guard\` di dalam loop thread sehingga nilai \`counter\` akhir selalu tepat \`2\`.`,
+        starterCode: `#include <iostream>
+#include <thread>
+#include <mutex>
+using namespace std;
+
+int counter = 0;
+mutex mtx; // Penjaga data
+
+void increment() {
+    // BUG: Tidak ada lock! Bisa terjadi race condition.
+    counter++;
+}
+
+int main() {
+    jthread t1(increment);
+    jthread t2(increment);
+    // jthread otomatis join di akhir scope
+    
+    cout << "Counter: " << counter << "\\n";
+    return 0;
+}`,
+        expectedOutput: "Counter: 2",
+        xpReward: 350,
+        coinReward: 150,
+        order: 3,
+        isBossLevel: true,
+        timeLimitSec: 150,
+        hints: [
+          { id: "h83-1", tier: 1, content: "Di dalam fungsi `increment()`, tambahkan `lock_guard<mutex> lock(mtx);` sebelum `counter++`.", costCoins: 10 },
+          { id: "h83-2", tier: 2, content: "void increment() {\n    lock_guard<mutex> lock(mtx);\n    counter++;\n}", costCoins: 20 },
+          { id: "h83-3", tier: 3, content: '#include <iostream>\n#include <thread>\n#include <mutex>\nusing namespace std;\n\nint counter = 0;\nmutex mtx;\n\nvoid increment() {\n    lock_guard<mutex> lock(mtx);\n    counter++;\n}\n\nint main() {\n    jthread t1(increment);\n    jthread t2(increment);\n    cout << "Counter: " << counter << "\\n";\n    return 0;\n}', costCoins: 30 },
+        ],
+      },
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════
   // DUNIA 5 — OOP KINGDOM
   // ══════════════════════════════════════════════════════════
   {

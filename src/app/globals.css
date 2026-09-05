@@ -2,111 +2,60 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-base-light: #F2F2F7; /* Apple gray background */
-  --color-base-dark: #000000;  /* Apple pure black */
-  
-  --color-primary: #0071E3; /* Apple Blue */
-  --color-primary-hover: #005bb5;
-  --color-primary-light: #E8F0FE;
-  
-  --color-secondary: #34C759; /* Apple Green */
-  --color-accent: #FF3B30;    /* Apple Red */
-  --color-warning: #FF9500;   /* Apple Orange */
-  
-  --color-text-main: #1D1D1F; /* Apple dark text */
-  --color-text-muted: #86868B; /* Apple secondary text */
+  --color-primary: #818cf8; /* Indigo-400 */
+  --color-primary-hover: #6366f1; /* Indigo-500 */
+  --color-secondary: #34d399; /* Emerald-400 */
+  --color-accent: #f87171;    /* Red-400 */
+  --color-warning: #fbbf24;   /* Amber-400 */
 }
 
 :root {
-  /* Apple Light Mode Background */
-  --bg-app: #F5F5F7;
-  --bg-card: #FFFFFF;
-  --text-app: #1D1D1F;
+  /* True Dark Mode Colors */
+  --bg-app: #09090b; /* zinc-950 */
+  --bg-card: #121214; /* zinc-900ish */
+  --text-app: #f4f4f5; /* zinc-100 */
 
-  /* Apple Liquid Glass Effects */
-  --apple-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --apple-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-  --apple-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+  /* Dark Tech Shadows */
+  --tech-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --tech-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --tech-shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.8);
   
-  /* Subtle inner borders for glass */
-  --apple-glass-border: inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.05);
-}
-
-.dark {
-  --bg-app: #000000;
-  --bg-card: #1C1C1E;
-  --text-app: #F5F5F7;
-
-  --apple-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --apple-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
-  --apple-shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.6);
-  
-  --apple-glass-border: inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --tech-glass-border: inset 0 1px 1px rgba(255, 255, 255, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
 body {
   background-color: var(--bg-app);
   color: var(--text-app);
-  /* San Francisco / Apple System Fonts */
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Apple Liquid Glass UI Utilities */
-.apple-card {
-  border-radius: 24px; 
-  box-shadow: var(--apple-shadow-md), var(--apple-glass-border);
+/* Vercel-like Tech Card Utilities */
+.tech-card {
+  border-radius: 1.5rem; 
   background: var(--bg-card);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  border: 1px solid #27272a; /* zinc-800 */
+  box-shadow: var(--tech-shadow-sm), var(--tech-glass-border);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
 
-.apple-card:hover {
+.tech-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--apple-shadow-lg), var(--apple-glass-border);
+  border-color: #3f3f46; /* zinc-700 */
+  box-shadow: var(--tech-shadow-md), var(--tech-glass-border);
 }
 
-.apple-glass-panel {
-  background: rgba(255, 255, 255, 0.7);
+.tech-glass-panel {
+  background: rgba(18, 18, 20, 0.65);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: var(--apple-glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: var(--tech-glass-border);
 }
 
-.dark .apple-glass-panel {
-  background: rgba(28, 28, 30, 0.65);
-}
-
-.apple-button {
-  border-radius: 9999px; /* Pill shape */
-  font-weight: 600;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  /* Minimum touch target 44px */
-  min-height: 44px;
-  padding: 0 20px;
-}
-
-.apple-button:active {
-  transform: scale(0.96);
-  opacity: 0.8;
-}
-
-/* Node Animations */
-@keyframes float-subtle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
-}
-
-.animate-float-subtle {
-  animation: float-subtle 4s ease-in-out infinite;
-}
-
-/* Base scrollbar - invisible until hover to mimic macOS */
+/* Base scrollbar - invisible until hover */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -115,13 +64,10 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0);
+  background: rgba(255, 255, 255, 0);
   border-radius: 10px;
   transition: background 0.2s ease;
 }
 *:hover::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-}
-.dark *:hover::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
