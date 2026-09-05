@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx cross-env DATABASE_URL=postgresql://dummy:dummy@localhost:5432/dummy next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
@@ -33,6 +33,7 @@
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "cross-env": "^7.0.3",
     "eslint": "^9.20.1",
     "eslint-config-next": "^15.1.7",
     "postcss": "^8.5.2",
