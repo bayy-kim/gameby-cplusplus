@@ -54,7 +54,7 @@ export default function TheoryView({
               <BookOpen className="w-8 h-8 text-indigo-400" />
             )}
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">{levelTitle}</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">{levelTitle}</h1>
           {isBossLevel && (
             <span className="text-[11px] font-mono font-bold px-3 py-1 rounded-md border border-amber-500/30 text-amber-500 bg-amber-500/10 uppercase tracking-widest">
               Persiapan Boss Battle
@@ -71,7 +71,7 @@ export default function TheoryView({
                      prose-headings:tracking-tight prose-headings:text-zinc-100
                      prose-code:px-1.5 prose-code:py-0.5 prose-code:bg-white/10 prose-code:rounded-md prose-code:text-[#34C759] prose-code:font-mono prose-code:text-[0.9em] prose-code:border prose-code:border-zinc-800
                      prose-strong:text-zinc-100 prose-a:text-indigo-400
-                     bg-zinc-950 p-8 md:p-12 rounded-[2rem] border border-zinc-800 shadow-2xl relative overflow-hidden"
+                     bg-zinc-950 p-5 sm:p-8 md:p-12 rounded-[2rem] border border-zinc-800 shadow-2xl relative overflow-hidden"
         >
           {/* Subtle noise inside the card */}
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay pointer-events-none"></div>
@@ -95,7 +95,7 @@ export default function TheoryView({
                         <div className="w-12"></div> {/* spacer for centering */}
                       </div>
                       {/* Terminal Body */}
-                      <pre className="p-6 text-[14px] leading-relaxed overflow-x-auto text-zinc-300 bg-transparent m-0 font-mono" {...props}>
+                      <pre className="p-4 sm:p-6 text-xs sm:text-[14px] leading-relaxed overflow-x-auto max-w-full text-zinc-300 bg-transparent m-0 font-mono whitespace-pre" {...props}>
                         {children}
                       </pre>
                     </div>

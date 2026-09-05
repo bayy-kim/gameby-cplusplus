@@ -139,14 +139,14 @@ export default function LessonPlayground({
     <div className="flex flex-col w-full h-[100dvh] bg-[#09090b] font-sans text-zinc-100 selection:bg-zinc-800 overflow-hidden" suppressHydrationWarning>
       
       {/* ─── HEADER (STICKY) ─── */}
-      <header className="h-[60px] flex-shrink-0 flex items-center justify-between px-4 md:px-6 bg-[#09090b]/80 backdrop-blur-md z-40 border-b border-zinc-800">
-        <Link href={`/lesson/${levelId}/theory`} className="flex items-center gap-1.5 text-zinc-400 hover:text-white font-medium text-sm transition-opacity">
+      <header className="h-[60px] flex-shrink-0 flex items-center justify-between px-3 md:px-6 bg-[#09090b]/80 backdrop-blur-md z-40 border-b border-zinc-800">
+        <Link href={`/lesson/${levelId}/theory`} className="flex items-center gap-1 text-zinc-400 hover:text-white font-medium text-xs md:text-sm transition-opacity">
           <ChevronLeft className="w-5 h-5" />
           <span className="hidden sm:inline">Materi</span>
         </Link>
         <div className="flex flex-col items-center">
-          <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-indigo-400">{worldTitle}</span>
-          <h1 className="text-[15px] font-semibold text-zinc-100">{levelTitle}</h1>
+          <span className="text-[9px] md:text-[10px] font-mono font-bold tracking-widest uppercase text-indigo-400 truncate max-w-[150px] sm:max-w-xs">{worldTitle}</span>
+          <h1 className="text-xs md:text-[15px] font-semibold text-zinc-100 truncate max-w-[150px] sm:max-w-sm">{levelTitle}</h1>
         </div>
         <div className="flex items-center gap-2">
            {isBossLevel && (
@@ -183,7 +183,7 @@ export default function LessonPlayground({
         
         {/* ─── LEFT PANEL: MISSION & HINTS ─── */}
         <div className={`w-full lg:w-4/12 h-full flex flex-col transition-transform duration-300 absolute lg:relative z-20 bg-[#09090b] lg:translate-x-0 ${mobileView === "mission" ? 'translate-x-0' : '-translate-x-full'}`}>
-          <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-24 lg:pb-6 flex flex-col gap-6">
+          <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-6 pb-24 lg:pb-6 flex flex-col gap-4 md:gap-6">
             
             {/* Target Misi */}
             <div className="bg-zinc-950 p-6 rounded-2xl border border-zinc-800 shadow-lg">
@@ -191,7 +191,7 @@ export default function LessonPlayground({
                 <Flag className="w-4 h-4 text-emerald-400" />
                 <h3 className="text-sm font-bold text-zinc-100 uppercase tracking-widest">Target Output</h3>
               </div>
-              <p className="text-xs text-zinc-400 leading-relaxed mb-4">
+              <p className="text-[11px] md:text-xs text-zinc-400 leading-relaxed mb-3 md:mb-4">
                 Tulis kode program sedemikian rupa sehingga ketika dieksekusi, konsol akan menampilkan output yang persis sama dengan blok di bawah ini.
               </p>
               <div className="bg-[#121214] p-4 rounded-xl border border-zinc-800/80 font-mono text-sm text-emerald-400 shadow-inner overflow-x-auto whitespace-pre">

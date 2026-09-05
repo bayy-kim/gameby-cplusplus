@@ -149,7 +149,7 @@ export default function DashboardPage() {
                 <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-md border border-indigo-500/20 text-indigo-400 bg-indigo-500/10 mb-3 inline-block uppercase tracking-widest">
                   Level {userStats.level} Coder
                 </span>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-1">{userStats.name}</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white mb-1 truncate max-w-full">{userStats.name}</h2>
                 <p className="text-xs font-mono text-zinc-500 flex items-center gap-1.5 mt-2">
                   <Terminal className="w-3.5 h-3.5" />
                   {userStats.email ?? `ID: usr_${userStats.id.slice(0, 8)}`}
@@ -262,7 +262,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="p-6 md:p-8 tech-card md:col-span-3 relative overflow-hidden"
+          className="p-5 sm:p-6 md:p-8 tech-card md:col-span-3 relative overflow-hidden"
         >
           <div className="flex items-center gap-3 mb-8 relative z-10">
             <div className="w-8 h-8 rounded-md bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shadow-inner">

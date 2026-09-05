@@ -66,7 +66,7 @@ export default function SkillTree({ worlds }: SkillTreeProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full rounded-[2rem] bg-zinc-900/40 p-8 md:p-12 overflow-hidden border border-zinc-800/80 shadow-2xl"
+        className="relative w-full rounded-[2rem] bg-zinc-900/40 p-6 sm:p-8 md:p-12 overflow-hidden border border-zinc-800/80 shadow-2xl"
       >
         <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -80,7 +80,7 @@ export default function SkillTree({ worlds }: SkillTreeProps) {
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-[56px] font-bold tracking-tight leading-tight mb-4 text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-[56px] font-bold tracking-tight leading-tight mb-4 text-white">
               C++ <span className="text-zinc-500">Mastery Path</span>
             </h1>
             <p className="text-[15px] md:text-[17px] text-zinc-400 leading-relaxed">
