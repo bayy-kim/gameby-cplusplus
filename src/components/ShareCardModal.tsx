@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { X, Download, Share2, Sparkles, Trophy, Code2, Zap } from "lucide-react";
+import { X, Download, Sparkles, Code2, Zap, Sprout, Swords, BrainCircuit, Medal } from "lucide-react";
 import * as htmlToImage from "html-to-image";
 
 interface ShareCardModalProps {
@@ -9,7 +9,7 @@ interface ShareCardModalProps {
   onClose: () => void;
   userName: string;
   badgeName: string;
-  badgeIcon: string;
+  badgeIconId: string;
   worldName?: string;
   xpEarned: number;
 }
@@ -19,7 +19,7 @@ export default function ShareCardModal({
   onClose,
   userName,
   badgeName,
-  badgeIcon,
+  badgeIconId,
   worldName,
   xpEarned,
 }: ShareCardModalProps) {
@@ -27,6 +27,15 @@ export default function ShareCardModal({
   const [isDownloading, setIsDownloading] = useState(false);
 
   if (!isOpen) return null;
+
+  const getBadgeIcon = (id: string) => {
+    switch(id) {
+      case "sprout": return <Sprout className="w-16 h-16 text-indigo-400" />;
+      case "swords": return <Swords className="w-16 h-16 text-indigo-400" />;
+      case "brain": return <BrainCircuit className="w-16 h-16 text-indigo-400" />;
+      default: return <Medal className="w-16 h-16 text-indigo-400" />;
+    }
+  };
 
   const handleDownload = async () => {
     if (!cardRef.current) return;
@@ -87,8 +96,8 @@ export default function ShareCardModal({
           <div className="flex justify-center mb-8 relative z-10">
             <div className="w-32 h-32 rounded-2xl bg-zinc-900 border border-zinc-800 shadow-inner flex items-center justify-center relative hover:scale-105 transition-transform duration-300">
               <div className="absolute inset-0 bg-indigo-500/5 rounded-2xl"></div>
-              <div className="text-6xl drop-shadow-sm relative z-10">
-                {badgeIcon}
+              <div className="text-6xl drop-shadow-sm relative z-10 flex items-center justify-center">
+                {getBadgeIcon(badgeIconId)}
               </div>
             </div>
           </div>

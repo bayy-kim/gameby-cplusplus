@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Flame, Coins, Medal, ArrowLeft, Share2, Sparkles, Terminal, Activity, Code2, Cpu } from "lucide-react";
+import { Flame, Coins, Medal, ArrowLeft, Share2, Sparkles, Terminal, Activity, Code2, Cpu, Sprout, Swords, BrainCircuit, User } from "lucide-react";
 import { motion } from "motion/react";
 import ShareCardModal from "@/components/ShareCardModal";
 
 export default function DashboardPage() {
   const [isShareOpen, setIsShareOpen] = useState(false);
-  const [selectedBadge, setSelectedBadge] = useState<{name: string, icon: string} | null>(null);
+  const [selectedBadge, setSelectedBadge] = useState<{name: string, iconId: string} | null>(null);
 
   const userStats = {
     name: "Ciko C++ Hunter",
@@ -18,14 +18,23 @@ export default function DashboardPage() {
     streak: 3,
     syntaxCoins: 85,
     badges: [
-      { id: "b1", name: "First Code", description: "Menyelesaikan level pertama di C++", icon: "🌱", date: "01 Sep 2026" },
-      { id: "b2", name: "Loop Ninja", description: "Lulus perulangan tanpa error", icon: "🥷", date: "03 Sep 2026" },
-      { id: "b3", name: "Syntax Debugger", description: "Mengalahkan Boss World 1", icon: "⚔️", date: "04 Sep 2026" },
-      { id: "b4", name: "Memory Master", description: "Kuasai Pointer & Dynamic Memory", icon: "🧠", date: "15 Sep 2026" },
+      { id: "b1", name: "First Code", description: "Menyelesaikan level pertama di C++", iconId: "sprout", date: "01 Sep 2026" },
+      { id: "b2", name: "Loop Ninja", description: "Lulus perulangan tanpa error", iconId: "swords", date: "03 Sep 2026" },
+      { id: "b3", name: "Syntax Debugger", description: "Mengalahkan Boss World 1", iconId: "swords", date: "04 Sep 2026" },
+      { id: "b4", name: "Memory Master", description: "Kuasai Pointer & Dynamic Memory", iconId: "brain", date: "15 Sep 2026" },
     ],
   };
 
-  const handleShareBadge = (badge: {name: string, icon: string}) => {
+  const getBadgeIcon = (id: string, className?: string) => {
+    switch(id) {
+      case "sprout": return <Sprout className={className} />;
+      case "swords": return <Swords className={className} />;
+      case "brain": return <BrainCircuit className={className} />;
+      default: return <Medal className={className} />;
+    }
+  };
+
+  const handleShareBadge = (badge: {name: string, iconId: string}) => {
     setSelectedBadge(badge);
     setIsShareOpen(true);
   };
@@ -64,8 +73,8 @@ export default function DashboardPage() {
 
           <div className="flex justify-between items-start relative z-10">
             <div className="flex items-start gap-6">
-              <div className="w-20 h-20 rounded-2xl bg-gray-50 dark:bg-black flex items-center justify-center text-4xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                👾
+              <div className="w-20 h-20 rounded-2xl bg-gray-50 dark:bg-black flex items-center justify-center text-4xl border border-gray-200 dark:border-gray-800 shadow-sm text-gray-500">
+                <User className="w-8 h-8" />
               </div>
               <div className="pt-1">
                 <span className="text-[11px] font-semibold px-2.5 py-1 rounded-md border border-[#0071E3]/20 text-[#0071E3] bg-[#0071E3]/5 mb-3 inline-block">
@@ -166,8 +175,8 @@ export default function DashboardPage() {
                 className="group p-5 rounded-2xl bg-gray-50 dark:bg-black border border-gray-100 dark:border-gray-800 hover:border-[#0071E3]/30 dark:hover:border-[#0071E3]/50 flex flex-col gap-4 transition-all cursor-pointer"
               >
                 <div className="flex justify-between items-start w-full">
-                   <div className="w-14 h-14 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-gray-200 dark:border-gray-800 text-3xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
-                     {badge.icon}
+                   <div className="w-14 h-14 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:text-[#0071E3] transition-all duration-300">
+                     {getBadgeIcon(badge.iconId, "w-6 h-6")}
                    </div>
                    <Share2 className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
@@ -194,7 +203,7 @@ export default function DashboardPage() {
         onClose={() => setIsShareOpen(false)}
         userName={userStats.name}
         badgeName={selectedBadge?.name || "Level Up!"}
-        badgeIcon={selectedBadge?.icon || "🚀"}
+        badgeIconId={selectedBadge?.iconId || "medal"}
         xpEarned={userStats.xp}
       />
     </div>
