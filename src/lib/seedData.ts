@@ -606,7 +606,7 @@ int main() {
         id: "level-6-1",
         worldId: "world-6",
         title: "unique_ptr — Kepemilikan Eksklusif",
-        content: `Di C++ modern, kita **DILARANG** menggunakan `new` dan `delete` secara manual. Kenapa? Karena jika kita lupa memanggil `delete`, memori akan "bocor" selamanya — disebut **Memory Leak**.
+        content: `Di C++ modern, kita **DILARANG** menggunakan \`new\` dan \`delete\` secara manual. Kenapa? Karena jika kita lupa memanggil \`delete\`, memori akan "bocor" selamanya — disebut **Memory Leak**.
 
 Solusinya adalah **Smart Pointer** yang secara otomatis membebaskan memori saat sudah tidak dibutuhkan.
 
@@ -758,7 +758,7 @@ int main() {
         title: "std::ranges::sort — Urutkan Data",
         content: `**Standard Template Library (STL)** adalah gudang senjata C++: koleksi *container*, *iterator*, dan *algoritma* siap pakai yang sudah sangat dioptimalkan.
 
-Di C++20, STL mendapat tambahan besar berupa **Ranges** — cara menulis algoritma yang jauh lebih bersih dan readable. Tidak perlu lagi menyebut `.begin()` dan `.end()`!
+Di C++20, STL mendapat tambahan besar berupa **Ranges** — cara menulis algoritma yang jauh lebih bersih dan readable. Tidak perlu lagi menyebut \`.begin()\` dan \`.end()\`!
 
 ### Perbandingan:
 \`\`\`cpp
