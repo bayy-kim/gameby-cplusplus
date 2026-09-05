@@ -1,0 +1,167 @@
+// Learn more about Prisma schema in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ProgressStatus {
+  LOCKED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String?        @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole       @default(USER)
+  xp            Int            @default(0)
+  syntaxCoin    Int            @default(50)
+  currentStreak Int            @default(0)
+  lastActive    DateTime?      @default(now())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  progress      UserProgress[]
+  badges        UserBadge[]
+  bossAttempts  BossAttempt[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model World {
+  id             String        @id @default(cuid())
+  title          String
+  description    String
+  order          Int           @unique
+  difficultyTier String        // Pemula, Menengah, Mahir, Expert
+  icon           String        @default("globe")
+  levels         Level[]
+  bossAttempts   BossAttempt[]
+}
+
+model Level {
+  id             String         @id @default(cuid())
+  worldId        String
+  title          String
+  content        String         @db.Text
+  starterCode    String         @db.Text
+  expectedOutput String         @db.Text
+  xpReward       Int            @default(50)
+  coinReward     Int            @default(10)
+  order          Int
+  isBossLevel    Boolean        @default(false)
+  timeLimitSec   Int?           // Untuk boss level berbatas waktu
+  hints          Hint[]
+  userProgress   UserProgress[]
+
+  world World @relation(fields: [worldId], references: [id], onDelete: Cascade)
+
+  @@unique([worldId, order])
+}
+
+model Hint {
+  id        String @id @default(cuid())
+  levelId   String
+  tier      Int    // 1: Petunjuk Arah, 2: Contoh Mirip, 3: Jawaban Penuh
+  content   String @db.Text
+  costCoins Int    @default(5)
+
+  level Level @relation(fields: [levelId], references: [id], onDelete: Cascade)
+
+  @@unique([levelId, tier])
+}
+
+model UserProgress {
+  id          String         @id @default(cuid())
+  userId      String
+  levelId     String
+  status      ProgressStatus @default(LOCKED)
+  completedAt DateTime?
+  unlockedHints Int          @default(0)
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level Level @relation(fields: [levelId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, levelId])
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  icon        String
+  criteria    String      // e.g. STREAK_7, WORLD_1_DONE, XP_1000
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id       String   @id @default(cuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+}
+
+model BossAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  worldId     String
+  passed      Boolean
+  score       Int      @default(0)
+  attemptedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  world World @relation(fields: [worldId], references: [id], onDelete: Cascade)
+}
