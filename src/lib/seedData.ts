@@ -50,6 +50,17 @@ export const SEED_WORLDS: WorldData[] = [
         
 Setiap program C++ **wajib** memiliki satu fungsi \`main()\`. Program akan dieksekusi mulai dari dalam kurung kurawal fungsi tersebut.
 
+### Contoh Program
+\`\`\`cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Selamat datang di CppForge!\\n";
+    return 0;
+}
+\`\`\`
+
 ### Misi Kamu
 Gunakan \`cout\` untuk mencetak sapaan pertamamu ke konsol.
 
@@ -125,6 +136,13 @@ int main() {
 
 Seorang penyusup merusak file *source code* sistem pertahanan awal kita! Kode C++ di bawah memiliki **3 bug** sintaks. 
 Jika kamu mencoba menjalankannya sekarang, *compiler* akan menolak karena aturan penulisan yang ketat di C++.
+
+### Log Error Compiler
+\`\`\`text
+error: missing terminating '>' character
+error: expected ';' at end of declaration
+error: expected ';' after expression
+\`\`\`
 
 Perbaiki semuanya agar sistem pertahanan menyala kembali dan outputnya sesuai target!
 
@@ -251,7 +269,15 @@ int main() {
 Program robot pertambangan ini error! Ia terjebak dalam **infinite loop** (perulangan tanpa henti) yang akan menyebabkan memori jebol. 
 Masalahnya ada pada penggunaan instruksi \`while\`.
 
-Kalahkan iblis *infinite loop* ini dengan memperbaiki logika hitungannya!
+### Kode yang Rusak
+\`\`\`cpp
+while (i <= 5) {
+    gold += i;
+    // Variabel 'i' tidak bertambah! Loop ini abadi.
+}
+\`\`\`
+
+Kalahkan iblis *infinite loop* ini dengan menambahkan *increment* (\`i++\`) agar logika hitungannya bergeser!
 
 **Tugas:** Pastikan *output* mencetak akumulasi total gold dengan benar.`,
         starterCode: `#include <iostream>
@@ -391,6 +417,12 @@ Kesalahan paling mematikan dalam menggunakan *Array* adalah mengakses kotak laci
 
 Program ini mencoba mengambil item terakhir. Namun ia memanggil indeks 3. Padahal jumlah data hanya 3. (Indeks: 0, 1, 2).
 
+### Crash Report
+\`\`\`text
+Segmentation fault (core dumped)
+Invalid memory access at inventory[3]
+\`\`\`
+
 **Tugas:** Perbaiki kode ini. Untuk akses item terakhir di \`std::vector\` secara instan dan modern, gunakan fungsi bawaan \`.back()\`.`,
         starterCode: `#include <iostream>
 #include <string>
@@ -519,7 +551,15 @@ int main() {
 
 Fungsi rekursif ini dirancang memanggil dirinya sendiri. Tetapi ia tidak memiliki pengecualian (*Base Case*). Ia akan terus menerus turun hingga memori komputer hancur (disebut **Stack Overflow**).
 
-Taklukkan naga rekursif ini dengan merantai ekornya (berikan *Base Case*)!
+### Rekursi Tanpa Batas
+\`\`\`cpp
+auto faktorial(int n) -> int {
+    // Akan terus memanggil faktorial(4), (3), (2), (1), (0), (-1), (-2)...
+    return n * faktorial(n - 1);
+}
+\`\`\`
+
+Taklukkan naga rekursif ini dengan merantai ekornya! Berikan *Base Case* berupa instruksi \`if (n <= 1) return 1;\` di awal fungsi.
 
 **Expected Output:** \`Faktorial 5 = 120\``,
         starterCode: `#include <iostream>
