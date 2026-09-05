@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ChevronLeft, ArrowRight, BookOpen, ShieldAlert } from "lucide-react";
 import { motion } from "motion/react";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { Components } from "react-markdown";
 
 interface TheoryViewProps {
   levelId: string;
@@ -70,7 +70,6 @@ export default function TheoryView({
           className="prose prose-invert prose-zinc max-w-none text-base md:text-lg leading-relaxed text-zinc-300
                      prose-headings:tracking-tight prose-headings:text-zinc-100
                      prose-code:px-1.5 prose-code:py-0.5 prose-code:bg-white/10 prose-code:rounded-md prose-code:text-[#34C759] prose-code:font-mono prose-code:text-[0.9em] prose-code:border prose-code:border-zinc-800
-                     prose-pre:bg-[#121214] prose-pre:border prose-pre:border-zinc-800 prose-pre:text-zinc-300 prose-pre:p-6 prose-pre:rounded-2xl
                      prose-strong:text-zinc-100 prose-a:text-indigo-400
                      bg-zinc-950 p-8 md:p-12 rounded-[2rem] border border-zinc-800 shadow-2xl relative overflow-hidden"
         >
@@ -78,7 +77,34 @@ export default function TheoryView({
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay pointer-events-none"></div>
           
           <div className="relative z-10">
-            <ReactMarkdown>{instructions}</ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                pre({ node, children, ...props }) {
+                  return (
+                    <div className="my-6 rounded-2xl overflow-hidden bg-[#0d0d0f] border border-zinc-800 shadow-xl">
+                      {/* Terminal Header */}
+                      <div className="flex items-center px-4 py-3 bg-[#161618] border-b border-zinc-800/50">
+                        <div className="flex gap-2">
+                          <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                          <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                          <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                        </div>
+                        <div className="mx-auto text-[11px] font-mono text-zinc-500 flex items-center gap-2">
+                          cppforge_engine
+                        </div>
+                        <div className="w-12"></div> {/* spacer for centering */}
+                      </div>
+                      {/* Terminal Body */}
+                      <pre className="p-6 text-[14px] leading-relaxed overflow-x-auto text-zinc-300 bg-transparent m-0 font-mono" {...props}>
+                        {children}
+                      </pre>
+                    </div>
+                  );
+                }
+              }}
+            >
+              {instructions}
+            </ReactMarkdown>
           </div>
         </motion.div>
 
