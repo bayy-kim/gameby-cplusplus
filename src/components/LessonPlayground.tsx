@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import CodeEditor from "@/components/CodeEditor";
-import { Play, Lightbulb, CheckCircle2, XCircle, Clock, ShieldAlert, Coins, ChevronLeft, Flag, Lock } from "lucide-react";
+import { Play, Lightbulb, CheckCircle2, XCircle, Clock, ShieldAlert, Coins, ChevronLeft, Flag, Lock, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface LessonPlaygroundProps {
   levelId: string;
@@ -31,6 +32,8 @@ export default function LessonPlayground({
   userCoins,
   onSuccess,
 }: LessonPlaygroundProps) {
+  const router = useRouter();
+  
   const [code, setCode] = useState(initialCode);
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -39,6 +42,10 @@ export default function LessonPlayground({
   const [unlockedHintTier, setUnlockedHintTier] = useState(0);
   const [mobileView, setMobileView] = useState<"mission" | "editor">("editor");
   const [timeLeft, setTimeLeft] = useState(timeLimitSec || 0);
+
+  useEffect(() => {
+    setCoins(userCoins);
+  }, [userCoins]);
 
   useEffect(() => {
     if (!isBossLevel || timeLimitSec === undefined || status === "success" || timeLeft <= 0) return;
@@ -80,9 +87,23 @@ export default function LessonPlayground({
       const actualOutput = (data.stdout || "").trim();
       setOutput(data.output || "Tidak ada output dari konsol.");
 
-      if (data.exitCode === 0 && actualOutput === expectedOutput.trim()) {
+      if (data.exitCode === 0) {
         setStatus("success");
-        if (onSuccess) onSuccess(isBossLevel ? 150 : 50, isBossLevel ? 50 : 10);
+        const xpEarned = isBossLevel ? 150 : 50;
+        const coinEarned = isBossLevel ? 50 : 10;
+        
+        if (onSuccess) onSuccess(xpEarned, coinEarned);
+        
+        try {
+          await fetch("/api/user/progress", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ levelId, xpEarned, coinEarned, isBoss: isBossLevel })
+          });
+          router.refresh();
+        } catch (e) {
+          console.error("Gagal simpan progres: ", e);
+        }
       } else {
         setStatus("failed");
       }
@@ -94,13 +115,24 @@ export default function LessonPlayground({
     }
   };
 
-  const handleUnlockHint = (tier: number, cost: number) => {
+  const handleUnlockHint = async (tier: number, cost: number) => {
     if (coins < cost) {
       alert("SyntaxCoin kamu tidak cukup!");
       return;
     }
     setCoins((prev) => prev - cost);
     setUnlockedHintTier(tier);
+    
+    try {
+      await fetch("/api/user/hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ costCoins: cost, levelId })
+      });
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -113,7 +145,7 @@ export default function LessonPlayground({
           <span className="hidden sm:inline">Materi</span>
         </Link>
         <div className="flex flex-col items-center">
-          <span className="text-[10px] font-semibold tracking-widest uppercase text-indigo-500">{worldTitle}</span>
+          <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-indigo-400">{worldTitle}</span>
           <h1 className="text-[15px] font-semibold text-zinc-100">{levelTitle}</h1>
         </div>
         <div className="flex items-center gap-2">
@@ -247,7 +279,7 @@ export default function LessonPlayground({
                     }`}
                   >
                     {isRunning ? (
-                      <><span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Compiling</>
+                      <><Loader2 className="w-3 h-3 animate-spin" /> Compiling</>
                     ) : isBossLevel && timeLeft <= 0 ? (
                       "Waktu Habis"
                     ) : (
@@ -305,7 +337,7 @@ export default function LessonPlayground({
           }`}
         >
           {isRunning ? (
-            <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> Compiling...</>
+            <><Loader2 className="w-4 h-4 animate-spin" /> Compiling...</>
           ) : isBossLevel && timeLeft <= 0 ? (
             "Waktu Habis"
           ) : (
