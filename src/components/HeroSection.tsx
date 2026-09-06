@@ -12,7 +12,7 @@ export default function HeroSection() {
     // Sequence animasi terminal
     const t1 = setTimeout(() => setTerminalState(1), 1000);
     const t2 = setTimeout(() => setTerminalState(2), 2200);
-    const t3 = setTimeout(() => setTerminalState(3), 3200);
+    const t3 = setTimeout(() => setTerminalState(3), 2600);
 
     return () => {
       clearTimeout(t1);
@@ -199,9 +199,9 @@ export default function HeroSection() {
               {/* Line 2: The output */}
               {terminalState >= 2 && (
                <motion.div 
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
                   className="mt-1.5 text-zinc-200"
                 >
                   Damage: 999
@@ -209,21 +209,37 @@ export default function HeroSection() {
               )}
 
               {/* Line 3: The success message */}
+              {/* Line 3: The success message */}
               {terminalState >= 3 && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="mt-2.5 text-emerald-400 font-bold"
-                >
-                  &gt; System Safe. +150 XP awarded.
-                  {/* Blinking Cursor pindah ke bawah */}
-                  <motion.span 
-                    animate={{ opacity: [1, 0, 1] }} 
-                    transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
-                    className="inline-block w-1.5 h-3.5 bg-emerald-400 ml-2 align-middle"
-                  />
-                </motion.div>
+                <div className="mt-2.5 text-emerald-400 font-bold flex flex-col gap-1">
+                  <motion.span
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 0.6, ease: "linear" }}
+                    className="inline-block overflow-hidden whitespace-nowrap align-bottom"
+                  >
+                    &gt; System Safe.
+                  </motion.span>
+                  
+                  <div className="flex items-center">
+                    <motion.span
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 0.8, ease: "linear", delay: 0.6 }}
+                      className="inline-block overflow-hidden whitespace-nowrap align-bottom text-indigo-400"
+                    >
+                      &gt; +150 XP awarded.
+                    </motion.span>
+                    
+                    {/* Blinking Cursor pindah ke baris terakhir */}
+                    <motion.span 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [1, 0, 1] }} 
+                      transition={{ repeat: Infinity, duration: 0.8, ease: "linear", delay: 1.4 }}
+                      className="inline-block w-1.5 h-3.5 bg-indigo-400 ml-1 align-middle"
+                    />
+                  </div>
+                </div>
               )}
             </div>
           </div>
