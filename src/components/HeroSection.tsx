@@ -20,8 +20,24 @@ export default function HeroSection() {
       clearTimeout(t3);
     };
   }, []);
+  
+  // Teks baris kode dipisah ke dalam array untuk dirender rapi secara vertikal
+  const codeLines = [
+    <span key="1"><span className="text-indigo-400">#include</span> <span className="text-emerald-400">&lt;iostream&gt;</span></span>,
+    <span key="2"><span className="text-indigo-400">#include</span> <span className="text-emerald-400">&lt;memory&gt;</span></span>,
+    <span key="3"></span>,
+    <span key="4"><span className="text-indigo-400">using namespace</span> std;</span>,
+    <span key="5"></span>,
+    <span key="6"><span className="text-indigo-400">int</span> <span className="text-blue-400">main</span>() {"{"}</span>,
+    <span key="7">    <span className="text-zinc-500 italic">// Kalahkan Memory Leak Phantom</span></span>,
+    <span key="8">    <span className="text-indigo-400">auto</span> weapon = <span className="text-blue-400">make_unique</span>&lt;<span className="text-indigo-400">int</span>&gt;(999);</span>,
+    <span key="9">    cout &lt;&lt; <span className="text-emerald-400">"Damage: "</span> &lt;&lt; *weapon &lt;&lt; <span className="text-emerald-400">"\\n"</span>;</span>,
+    <span key="10">    <span className="text-indigo-400">return</span> <span className="text-amber-400">0</span>;</span>,
+    <span key="11">{"}"}</span>
+  ];
+
   return (
-    <section className="relative z-10 pt-24 pb-12 lg:pt-48 lg:pb-32 px-4 sm:px-6 overflow-hidden flex flex-col lg:flex-row items-center gap-12 lg:gap-8 font-sans w-full max-w-7xl mx-auto" suppressHydrationWarning>
+    <section className="relative z-10 pt-24 pb-16 lg:pt-48 lg:pb-32 px-4 sm:px-6 w-full max-w-[100vw] overflow-hidden flex flex-col lg:flex-row items-center gap-12 lg:gap-8 font-sans mx-auto max-w-7xl" suppressHydrationWarning>
       
       {/* ─── TEXT CONTENT (LEFT) ─── */}
       <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left" suppressHydrationWarning>
@@ -112,10 +128,10 @@ export default function HeroSection() {
         whileHover={{ rotateY: 0, rotateX: 0, scale: 1.02 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
-        className="w-full lg:w-1/2 max-w-[95vw] sm:max-w-xl cursor-crosshair"
+        className="w-full lg:w-1/2 max-w-full sm:max-w-xl cursor-crosshair"
         suppressHydrationWarning
       >
-        <div suppressHydrationWarning className="rounded-[1.5rem] bg-zinc-950 border border-zinc-800 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] overflow-hidden w-full">
+        <div suppressHydrationWarning className="rounded-[1.5rem] bg-zinc-950 border border-zinc-800 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] overflow-hidden w-full max-w-full">
           
           {/* Editor Header */}
           <div suppressHydrationWarning className="flex items-center px-4 py-3 bg-[#0d0d0f] border-b border-zinc-800/80">
@@ -132,23 +148,13 @@ export default function HeroSection() {
           {/* Editor Body */}
           <div suppressHydrationWarning className="p-4 sm:p-6 text-[11px] sm:text-sm font-mono leading-relaxed bg-zinc-950 overflow-x-auto">
             <div className="flex min-w-max" suppressHydrationWarning>
-              <div suppressHydrationWarning className="text-zinc-700 select-none pr-3 sm:pr-4 text-right flex flex-col gap-1 border-r border-zinc-800/80 mr-3 sm:mr-4">
-                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+              <div suppressHydrationWarning className="text-zinc-700 select-none pr-3 sm:pr-4 text-right flex flex-col border-r border-zinc-800/80 mr-3 sm:mr-4">
+                {codeLines.map((_, i) => <span key={i}>{i+1}</span>)}
               </div>
-              <div suppressHydrationWarning className="text-zinc-300 flex flex-col gap-1">
-<pre className="m-0">
-<span className="text-indigo-400">#include</span> <span className="text-emerald-400">&lt;iostream&gt;</span>
-<span className="text-indigo-400">#include</span> <span className="text-emerald-400">&lt;memory&gt;</span>
-
-<span className="text-indigo-400">using namespace</span> std;
-
-<span className="text-indigo-400">int</span> <span className="text-blue-400">main</span>() {"{"}
-    <span className="text-zinc-500 italic">// Kalahkan Memory Leak Phantom</span>
-    <span className="text-indigo-400">auto</span> weapon = <span className="text-blue-400">make_unique</span>&lt;<span className="text-indigo-400">int</span>&gt;(999);
-    cout &lt;&lt; <span className="text-emerald-400">"Damage: "</span> &lt;&lt; *weapon &lt;&lt; <span className="text-emerald-400">"\\n"</span>;
-    <span className="text-indigo-400">return</span> <span className="text-amber-400">0</span>;
-{"}"}
-</pre>
+              <div suppressHydrationWarning className="text-zinc-300 flex flex-col">
+                {codeLines.map((line, i) => (
+                  <div key={i} className="min-h-[1.5em]">{line}</div>
+                ))}
               </div>
             </div>
           </div>
@@ -208,7 +214,6 @@ export default function HeroSection() {
                 </motion.div>
               )}
 
-              {/* Line 3: The success message */}
               {/* Line 3: The success message */}
               {terminalState >= 3 && (
                 <div className="mt-2.5 text-emerald-400 font-bold flex flex-col gap-1">
