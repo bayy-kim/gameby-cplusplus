@@ -21,7 +21,7 @@ export default function HeroSection() {
     };
   }, []);
   return (
-    <section className="relative z-10 pt-24 pb-16 lg:pt-48 lg:pb-32 px-4 sm:px-6 w-full max-w-[100vw] overflow-hidden flex flex-col lg:flex-row items-center gap-12 lg:gap-8 font-sans mx-auto max-w-7xl" suppressHydrationWarning>
+    <section className="relative z-10 pt-24 pb-12 lg:pt-48 lg:pb-32 px-4 sm:px-6 overflow-hidden flex flex-col lg:flex-row items-center gap-12 lg:gap-8 font-sans w-full max-w-7xl mx-auto" suppressHydrationWarning>
       
       {/* ─── TEXT CONTENT (LEFT) ─── */}
       <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left" suppressHydrationWarning>
@@ -112,10 +112,10 @@ export default function HeroSection() {
         whileHover={{ rotateY: 0, rotateX: 0, scale: 1.02 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         style={{ perspective: "1000px", transformStyle: "preserve-3d" }}
-        className="w-full lg:w-1/2 max-w-full sm:max-w-xl cursor-crosshair"
+        className="w-full lg:w-1/2 max-w-[95vw] sm:max-w-xl cursor-crosshair"
         suppressHydrationWarning
       >
-        <div suppressHydrationWarning className="rounded-[1.5rem] bg-zinc-950 border border-zinc-800 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] overflow-hidden w-full max-w-full">
+        <div suppressHydrationWarning className="rounded-[1.5rem] bg-zinc-950 border border-zinc-800 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] overflow-hidden w-full">
           
           {/* Editor Header */}
           <div suppressHydrationWarning className="flex items-center px-4 py-3 bg-[#0d0d0f] border-b border-zinc-800/80">

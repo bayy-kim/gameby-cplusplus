@@ -183,7 +183,7 @@ export default function LessonPlayground({
         
         {/* ─── LEFT PANEL: MISSION & HINTS ─── */}
         <div className={`w-full lg:w-4/12 h-full flex flex-col transition-transform duration-300 absolute lg:relative z-20 bg-[#09090b] lg:translate-x-0 ${mobileView === "mission" ? 'translate-x-0' : '-translate-x-full'}`}>
-          <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-6 pb-24 lg:pb-6 flex flex-col gap-4 md:gap-6">
+          <div className="flex-1 overflow-y-auto px-4 md:px-6 py-4 md:py-6 pb-24 lg:pb-6 flex flex-col gap-4 md:gap-6 break-words">
             
             {/* Target Misi */}
             <div className="bg-zinc-950 p-6 rounded-2xl border border-zinc-800 shadow-lg">
@@ -247,7 +247,7 @@ export default function LessonPlayground({
 
         {/* ─── RIGHT PANEL: EDITOR & CONSOLE ─── */}
         <div className={`w-full lg:w-8/12 h-full flex flex-col absolute lg:relative z-10 transition-transform duration-300 bg-[#09090b] lg:translate-x-0 ${mobileView === "editor" ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="flex-1 flex flex-col p-2 md:p-6 md:pl-0 gap-2 md:gap-4 h-full pb-20 md:pb-6">
+          <div className="flex-1 flex flex-col p-2 md:p-6 md:pl-0 gap-2 md:gap-4 h-[calc(100%-100px)] md:h-full pb-28 md:pb-6 w-full max-w-[100vw]">
             
             {/* Editor Container */}
             <motion.div 

@@ -88,14 +88,14 @@ export default function SkillTree({ worlds }: SkillTreeProps) {
             </p>
           </div>
 
-          <div className="flex gap-4 w-full md:w-auto mt-4 md:mt-0">
-             <div className="tech-glass-panel px-5 py-4 rounded-2xl flex-1 md:min-w-[120px] flex flex-col items-center justify-center">
+          <div className="flex flex-row gap-4 w-full md:w-auto mt-4 md:mt-0">
+             <div className="bg-[#121214] px-5 py-4 rounded-2xl flex-1 md:min-w-[120px] flex flex-col items-center justify-center border border-zinc-800 shadow-md">
                 <p className="text-[10px] text-zinc-500 font-mono font-bold uppercase tracking-widest mb-1">Total XP</p>
                 <p className="text-2xl font-bold text-white flex items-center gap-1.5">
                   350 <Zap className="w-4 h-4 text-emerald-400" />
                 </p>
              </div>
-             <div className="tech-glass-panel px-5 py-4 rounded-2xl flex-1 md:min-w-[120px] flex flex-col items-center justify-center">
+             <div className="bg-[#121214] px-5 py-4 rounded-2xl flex-1 md:min-w-[120px] flex flex-col items-center justify-center border border-zinc-800 shadow-md">
                 <p className="text-[10px] text-zinc-500 font-mono font-bold uppercase tracking-widest mb-1">Credits</p>
                 <p className="text-2xl font-bold text-white flex items-center gap-1.5">
                   50 <Coins className="w-4 h-4 text-amber-400" />
@@ -157,7 +157,7 @@ export default function SkillTree({ worlds }: SkillTreeProps) {
 
             {/* Level Nodes */}
             {isWorldUnlocked ? (
-              <div className="pl-6 md:pl-20 pr-2 flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-6">
+              <div className="pl-0 md:pl-20 pr-0 flex flex-col md:flex-row md:flex-wrap gap-4 md:gap-6 w-full">
                 {world.levels.map((level) => {
                   const isCompleted = level.status === "completed";
                   const isInProgress = level.status === "in_progress";
@@ -168,7 +168,7 @@ export default function SkillTree({ worlds }: SkillTreeProps) {
                       key={level.id}
                       href={isLocked ? "#" : `/lesson/${level.id}/theory`}
                       aria-disabled={isLocked}
-                      className={`relative p-5 rounded-[1.5rem] border flex flex-col justify-between w-full md:w-[280px] min-h-[140px] transition-all duration-300 ${
+                      className={`relative p-5 rounded-2xl border flex flex-col justify-between w-full md:w-[280px] min-h-[140px] transition-all duration-300 ${
                         isCompleted
                           ? "bg-zinc-900 border-zinc-800 hover:border-emerald-500/50 shadow-sm"
                           : isInProgress
@@ -218,10 +218,10 @@ export default function SkillTree({ worlds }: SkillTreeProps) {
                 })}
               </div>
             ) : (
-              <div className="pl-6 md:pl-20 pr-2 flex items-center">
-                  <div className="w-full md:w-[280px] h-[140px] rounded-[1.5rem] bg-zinc-950 border border-zinc-900 flex items-center justify-center">
+              <div className="pl-0 md:pl-20 pr-0 flex items-center w-full">
+                  <div className="w-full md:w-[280px] h-[140px] rounded-2xl bg-zinc-950 border border-zinc-900 flex items-center justify-center">
                     <p className="text-[12px] font-mono text-zinc-600 flex items-center gap-2">
-                        <Lock className="w-4 h-4" /> SELESAIKAN MODUL SEBELUMNYA
+                        <Lock className="w-4 h-4" /> Selesaikan Modul 1
                     </p>
                   </div>
               </div>
