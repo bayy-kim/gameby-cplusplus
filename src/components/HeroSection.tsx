@@ -83,7 +83,7 @@ export default function HeroSection() {
           suppressHydrationWarning
         >
           <Link 
-            href="#kurikulum" 
+            href="/kurikulum" 
             className="w-full sm:w-auto flex items-center justify-center gap-2 bg-zinc-100 text-zinc-900 px-8 py-3.5 rounded-xl font-bold hover:bg-white transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
           >
             Masuk ke Skill Tree <ArrowRight className="w-4 h-4" />

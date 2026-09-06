@@ -32,7 +32,7 @@ export default function NavbarClient({ user, onSignIn, onSignOut }: NavbarClient
 
         {/* Links Desktop */}
         <div className="hidden md:flex items-center gap-8 text-sm font-mono font-semibold uppercase tracking-wider text-zinc-500">
-          <Link href="/#kurikulum" className="hover:text-indigo-400 transition-colors">Kurikulum</Link>
+          <Link href="/kurikulum" className="hover:text-indigo-400 transition-colors">Kurikulum</Link>
           <Link href="/dashboard" className="hover:text-indigo-400 transition-colors">Progres</Link>
           <Link href="/docs" className="hover:text-indigo-400 transition-colors">Docs</Link>
         </div>
@@ -63,7 +63,7 @@ export default function NavbarClient({ user, onSignIn, onSignOut }: NavbarClient
           )}
 
           <Link 
-            href="/#kurikulum" 
+            href="/kurikulum" 
             className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-[0_0_15px_rgba(79,70,229,0.3)]"
           >
             Start Mission
@@ -94,7 +94,7 @@ export default function NavbarClient({ user, onSignIn, onSignOut }: NavbarClient
             <div className="flex flex-col px-4 py-6 gap-6">
               {/* Navigation Links */}
               <div className="flex flex-col gap-4 text-base font-mono font-semibold uppercase tracking-wider text-zinc-400">
-                <Link href="/#kurikulum" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-indigo-400">Kurikulum</Link>
+                <Link href="/kurikulum" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-indigo-400">Kurikulum</Link>
                 <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-indigo-400">Progres</Link>
                 <Link href="/docs" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-indigo-400">Dokumentasi</Link>
               </div>
@@ -131,7 +131,7 @@ export default function NavbarClient({ user, onSignIn, onSignOut }: NavbarClient
                 )}
 
                 <Link 
-                  href="/#kurikulum" 
+                  href="/kurikulum" 
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="w-full text-center bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-3 rounded-xl text-sm font-semibold transition-all shadow-[0_0_15px_rgba(79,70,229,0.3)] mt-2"
                 >

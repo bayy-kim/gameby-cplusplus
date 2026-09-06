@@ -15,7 +15,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap justify-center items-center gap-6 text-[13px] font-mono font-medium text-zinc-400">
-          <a href="/#kurikulum" className="hover:text-indigo-400 transition-colors">Skill Tree</a>
+          <a href="/kurikulum" className="hover:text-indigo-400 transition-colors">Skill Tree</a>
           <a href="/dashboard" className="hover:text-indigo-400 transition-colors">Dashboard</a>
           <a href="/docs" className="hover:text-indigo-400 transition-colors">Cheat Sheet</a>
           <a href="/faq" className="hover:text-indigo-400 transition-colors">FAQ</a>

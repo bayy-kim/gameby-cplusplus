@@ -72,7 +72,7 @@ export default function DocsPage() {
         {/* Floating Action Button untuk Latihan */}
         <div className="fixed bottom-8 left-0 right-0 px-4 flex justify-center z-50 pointer-events-none">
           <Link
-            href="/#kurikulum"
+            href="/kurikulum"
             className="pointer-events-auto flex items-center justify-center gap-2 bg-[#0071E3] hover:bg-[#005bb5] text-white px-8 py-3.5 rounded-full font-semibold transition-all shadow-[0_10px_30px_rgba(0,113,227,0.4)] hover:-translate-y-1"
           >
             <Code2 className="w-4 h-4" /> Mulai Misi Koding
