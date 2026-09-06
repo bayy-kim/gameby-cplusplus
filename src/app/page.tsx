@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import SkillTree from "@/components/SkillTree";
+import Footer from "@/components/Footer";
 import { SEED_WORLDS } from "@/lib/seedData";
 import { prisma } from "@/lib/prisma";
 
@@ -78,14 +79,17 @@ export default async function HomePage() {
   const formattedWorlds = await getWorldsWithProgress();
 
   return (
-    <main className="min-h-[100dvh]" suppressHydrationWarning>
-      <Navbar />
-      <HeroSection />
+    <div className="flex flex-col min-h-[100dvh] bg-[#09090b]">
+      <main className="flex-1" suppressHydrationWarning>
+        <Navbar />
+        <HeroSection />
 
-      {/* Target jangkar untuk tautan "Mulai Belajar" */}
-      <div id="kurikulum">
-        <SkillTree worlds={formattedWorlds} />
-      </div>
-    </main>
+        {/* Target jangkar untuk tautan "Mulai Belajar" */}
+        <div id="kurikulum">
+          <SkillTree worlds={formattedWorlds} />
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 }
