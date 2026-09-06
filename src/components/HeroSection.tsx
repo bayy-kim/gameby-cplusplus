@@ -10,9 +10,9 @@ export default function HeroSection() {
 
   useEffect(() => {
     // Sequence animasi terminal
-    const t1 = setTimeout(() => setTerminalState(1), 1000);
-    const t2 = setTimeout(() => setTerminalState(2), 2200);
-    const t3 = setTimeout(() => setTerminalState(3), 2600);
+    const t1 = setTimeout(() => setTerminalState(1), 2200);
+    const t2 = setTimeout(() => setTerminalState(2), 3000);
+    const t3 = setTimeout(() => setTerminalState(3), 3400);
 
     return () => {
       clearTimeout(t1);
@@ -149,11 +149,29 @@ export default function HeroSection() {
           <div suppressHydrationWarning className="p-4 sm:p-6 text-[11px] sm:text-sm font-mono leading-relaxed bg-zinc-950 overflow-x-auto">
             <div className="flex min-w-max" suppressHydrationWarning>
               <div suppressHydrationWarning className="text-zinc-700 select-none pr-3 sm:pr-4 text-right flex flex-col border-r border-zinc-800/80 mr-3 sm:mr-4">
-                {codeLines.map((_, i) => <span key={i}>{i+1}</span>)}
+                {codeLines.map((_, i) => (
+                  <motion.span 
+                    key={i}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2, delay: 0.5 + (i * 0.1) }}
+                    className="min-h-[1.5em]"
+                  >
+                    {i+1}
+                  </motion.span>
+                ))}
               </div>
               <div suppressHydrationWarning className="text-zinc-300 flex flex-col">
                 {codeLines.map((line, i) => (
-                  <div key={i} className="min-h-[1.5em]">{line}</div>
+                  <motion.div 
+                    key={i} 
+                    initial={{ width: "0%", opacity: 0 }}
+                    animate={{ width: "100%", opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.5 + (i * 0.1), ease: "linear" }}
+                    className="min-h-[1.5em] whitespace-nowrap overflow-hidden"
+                  >
+                    {line}
+                  </motion.div>
                 ))}
               </div>
             </div>
