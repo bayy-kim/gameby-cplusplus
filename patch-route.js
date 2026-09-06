@@ -1,24 +1,27 @@
-import { NextResponse } from "next/server";
+const fs = require('fs');
+const path = require('path');
+
+const content = `import { NextResponse } from "next/server";
 
 function detectInfiniteLoop(code: string): boolean {
-  if (/while\s*\(\s*true\s*\)/.test(code) && !/break\s*;/.test(code)) return true;
-  if (/while\s*\(\s*1\s*\)/.test(code) && !/break\s*;/.test(code)) return true;
+  if (/while\\s*\\(\\s*true\\s*\\)/.test(code) && !/break\\s*;/.test(code)) return true;
+  if (/while\\s*\\(\\s*1\\s*\\)/.test(code) && !/break\\s*;/.test(code)) return true;
   return false;
 }
 
 function detectSyntaxErrors(code: string): string[] {
   const errors: string[] = [];
-  if (/#include\s+<[^>]*$/.test(code.replace(/\n/g, " ")) || /#include\s+<[\w.]+(?!\>)/.test(code)) {
+  if (/#include\\s+<[^>]*$/.test(code.replace(/\\n/g, " ")) || /#include\\s+<[\\w.]+(?!\\>)/.test(code)) {
     errors.push("error: missing terminating '>' character in #include directive");
   }
-  if (!code.includes("#include <iostream>") && !code.includes("#include<iostream>") && /\bcout\b/.test(code)) {
-    errors.push("error: 'cout' was not declared in this scope\nnote: did you forget '#include <iostream>'?");
+  if (!code.includes("#include <iostream>") && !code.includes("#include<iostream>") && /\\bcout\\b/.test(code)) {
+    errors.push("error: 'cout' was not declared in this scope\\nnote: did you forget '#include <iostream>'?");
   }
-  const lines = code.split("\n");
+  const lines = code.split("\\n");
   for (const line of lines) {
     const trimmed = line.trim();
-    if (/^auto\s+\w+\s*=\s*.+[^;{]$/.test(trimmed) && !trimmed.endsWith("{") && !trimmed.endsWith(",") && !trimmed.startsWith("//")) {
-      errors.push(`warning: possible missing ';' after declaration: '${trimmed}'`);
+    if (/^auto\\s+\\w+\\s*=\\s*.+[^;{]$/.test(trimmed) && !trimmed.endsWith("{") && !trimmed.endsWith(",") && !trimmed.startsWith("//")) {
+      errors.push(\`warning: possible missing ';' after declaration: '\${trimmed}'\`);
       break;
     }
   }
@@ -26,21 +29,21 @@ function detectSyntaxErrors(code: string): string[] {
 }
 
 function simulateOutput(code: string, expectedOutput: string): string {
-  const escapedExpected = expectedOutput.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  if (new RegExp(`["']${escapedExpected}["']`).test(code)) return expectedOutput;
+  const escapedExpected = expectedOutput.replace(/[.*+?^\${}()|[\\]\\\\]/g, "\\\\$&");
+  if (new RegExp(\`["']\${escapedExpected}["']\`).test(code)) return expectedOutput;
 
-  const coutMatches = [...code.matchAll(/cout\s*<<\s*"([^"\\]*(\\.[^"\\]*)*)"/g)];
+  const coutMatches = [...code.matchAll(/cout\\s*<<\\s*"([^"\\\\]*(\\\\.[^"\\\\]*)*)"/g)];
   if (coutMatches.length > 0) {
-    const parts = coutMatches.map((m) => m[1].replace(/\\n/g, "").replace(/\\t/g, "\t"));
+    const parts = coutMatches.map((m) => m[1].replace(/\\\\n/g, "").replace(/\\\\t/g, "\\t"));
     const joined = parts.join("");
     if (joined.trim() === expectedOutput.trim()) return expectedOutput;
   }
 
   if (code.includes("Hello, CppForge!")) return "Hello, CppForge!";
   if (code.includes("Player:") && code.includes("Ciko") && code.includes("Level:")) return "Player: Ciko | Level: 1";
-  if (code.includes("hp") && code.includes("mana") && code.includes("HP:") && code.includes("Mana:") && code.includes("#include <iostream>") && !/#include\s+<iostream(?!>)/.test(code)) return "HP: 100 | Mana: 50";
+  if (code.includes("hp") && code.includes("mana") && code.includes("HP:") && code.includes("Mana:") && code.includes("#include <iostream>") && !/#include\\s+<iostream(?!>)/.test(code)) return "HP: 100 | Mana: 50";
   if (code.includes("score") && code.includes("LULUS") && code.includes(">=")) return "LULUS";
-  if (code.includes("for") && code.includes("cout") && code.includes("<= 5") && (code.includes("i < 5") || code.includes("i<5") || code.includes('" "') || code.includes('" "'))) return "1 2 3 4 5";
+  if (code.includes("for") && code.includes("cout") && code.includes("<= 5") && (code.includes("i < 5") || code.includes("i<5") || code.includes('" "') || code.includes("\\\\\\" \\\\""))) return "1 2 3 4 5";
   if (code.includes("gold") && code.includes("while") && code.includes("i++")) return "Total Gold: 15";
   if (code.includes("scores") && (code.includes("scores[1]") || code.includes("scores.at(1)"))) return "80";
   if (code.includes("Hero:") && code.includes("Bonbon")) return "Hero: Bonbon (Lvl 10)";
@@ -76,12 +79,12 @@ export async function POST(req: Request) {
     }
 
     if (detectInfiniteLoop(code)) {
-      const simulatedStderr = "error: potential infinite loop detected.\nnote: 'while(true)' or 'while(1)' without 'break' will run forever.";
+      const simulatedStderr = "error: potential infinite loop detected.\\nnote: 'while(true)' or 'while(1)' without 'break' will run forever.";
       return NextResponse.json({
         stdout: "",
         stderr: simulatedStderr,
         exitCode: 1,
-        output: `--- Compilation / Runtime Error ---\n${simulatedStderr}`,
+        output: \`--- Compilation / Runtime Error ---\\n\${simulatedStderr}\`,
       });
     }
 
@@ -92,7 +95,7 @@ export async function POST(req: Request) {
     let response: Response | null = null;
 
     try {
-      response = await fetch(`${PISTON_API_URL}/execute`, {
+      response = await fetch(\`\${PISTON_API_URL}/execute\`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -105,24 +108,24 @@ export async function POST(req: Request) {
 
       if (!response.ok) {
         useFallback = true;
-        fallbackMessage = `[INFO] Piston Compiler API rejected request (HTTP ${response.status}). Using local simulation engine...`;
+        fallbackMessage = \`[INFO] Piston Compiler API rejected request (HTTP \${response.status}). Using local simulation engine...\`;
       } else {
         result = await response.json();
       }
     } catch (e: any) {
       useFallback = true;
-      fallbackMessage = `[INFO] Connection to Piston Compiler API failed. Using local simulation engine...`;
+      fallbackMessage = \`[INFO] Connection to Piston Compiler API failed. Using local simulation engine...\`;
     }
 
     if (useFallback) {
       const syntaxErrors = detectSyntaxErrors(code);
       if (syntaxErrors.length > 0) {
-        const simulatedStderr = syntaxErrors.join("\n");
+        const simulatedStderr = syntaxErrors.join("\\n");
         return NextResponse.json({
           stdout: "",
           stderr: simulatedStderr,
           exitCode: 1,
-          output: `${fallbackMessage}\n\n--- Compilation Error ---\n${simulatedStderr}`,
+          output: \`\${fallbackMessage}\\n\\n--- Compilation Error ---\\n\${simulatedStderr}\`,
         });
       }
 
@@ -133,14 +136,14 @@ export async function POST(req: Request) {
 
       let simulatedStderr = "";
       if (!isPassing && expectedTrimmed) {
-        simulatedStderr = `Output tidak cocok.\nDiharapkan : "${expectedTrimmed}"\nDiperoleh  : "${actualTrimmed}"`;
+        simulatedStderr = \`Output tidak cocok.\\nDiharapkan : "\${expectedTrimmed}"\\nDiperoleh  : "\${actualTrimmed}"\`;
       }
 
       return NextResponse.json({
         stdout: simulatedStdout,
         stderr: simulatedStderr,
         exitCode: isPassing ? 0 : 1,
-        output: `${fallbackMessage}\n\n${simulatedStdout}` + (simulatedStderr ? `\n\n--- Evaluasi Gagal ---\n${simulatedStderr}` : ""),
+        output: \`\${fallbackMessage}\\n\\n\${simulatedStdout}\` + (simulatedStderr ? \`\\n\\n--- Evaluasi Gagal ---\\n\${simulatedStderr}\` : ""),
       });
     }
 
@@ -151,13 +154,13 @@ export async function POST(req: Request) {
 
     let outputDisplay = "";
     if (compileStderr) {
-      outputDisplay += `--- Compilation Error ---\n${compileStderr}\n`;
+      outputDisplay += \`--- Compilation Error ---\\n\${compileStderr}\\n\`;
     }
     if (runStdout) {
       outputDisplay += runStdout;
     }
     if (runStderr) {
-      outputDisplay += `\n--- Runtime Error ---\n${runStderr}`;
+      outputDisplay += \`\\n--- Runtime Error ---\\n\${runStderr}\`;
     }
 
     const actualTrimmed = runStdout.trim();
@@ -167,7 +170,7 @@ export async function POST(req: Request) {
     if (exitCode === 0 && !compileStderr) {
       isPassing = actualTrimmed === expectedTrimmed;
       if (!isPassing && expectedTrimmed) {
-        outputDisplay += `\n\n--- Evaluasi Gagal ---\nOutput tidak cocok.\nDiharapkan : "${expectedTrimmed}"\nDiperoleh  : "${actualTrimmed}"`;
+        outputDisplay += \`\\n\\n--- Evaluasi Gagal ---\\nOutput tidak cocok.\\nDiharapkan : "\${expectedTrimmed}"\\nDiperoleh  : "\${actualTrimmed}"\`;
       }
     }
 
@@ -185,4 +188,7 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+}`;
+
+fs.writeFileSync(path.join(process.cwd(), 'src/app/api/execute/route.ts'), content);
+console.log('Fixed route.ts!');
