@@ -4,6 +4,7 @@ import { HelpCircle } from "lucide-react";
 
 export default function FaqPage() {
   const faqs = [
+    { q: "Siapa di balik CppForge & Apa tujuannya?", a: "CppForge adalah inisiatif sumber terbuka (open-source) yang dibangun untuk meruntuhkan stigma bahwa belajar C++ itu kuno, sulit, dan membosankan. Kami menggabungkan gamifikasi, Dark Tech UI, dan compiler berbasis browser agar generasi developer baru bisa mencicipi kehebatan C++ modern se-simpel belajar bahasa lain." },
     { q: "Apa itu C++?", a: "C++ adalah bahasa pemrograman yang dipakai buat bikin berbagai macam software — dari game, aplikasi, sampai sistem operasi. Terkenal karena cepat dan masih banyak dipakai industri sampai sekarang." },
     { q: "Aku belum pernah ngoding sama sekali, bisa mulai dari sini?", a: "Bisa banget. CppForge dirancang dari nol, dimulai dari level paling dasar, tanpa asumsi kamu sudah tahu istilah pemrograman apapun." },
     { q: "Kenapa contoh kode di sini pakai 'using namespace std;'?", a: "Biar kamu bisa langsung pakai cout dan cin tanpa harus mikirin awalan tambahan dulu di tahap belajar. Ini cara penulisan yang valid dan memang dipakai untuk mempermudah, terutama saat belajar." },
